@@ -6,7 +6,7 @@ import * as React from 'react'
 function Greeting({initialName = ''}) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') ?? initialName
-  const [name, setName] = React.useState(() => window.localStorage.getItem('name'))
+  const [name, setName] = React.useState(initialName || window.localStorage.getItem('name'))
  
 
   // 🐨 Here's where you'll use `React.useEffect`.
@@ -31,7 +31,7 @@ function Greeting({initialName = ''}) {
 }
 
 function App() {
-  return <Greeting initialName='Adam' />
+  return <Greeting initialName=} />
 }
 
 export default App
