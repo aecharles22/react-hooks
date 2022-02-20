@@ -3,10 +3,13 @@
 
 import * as React from 'react'
 
-function Greeting({initialName}) {
-  const [name, setName] = React.useState(initialName);
+function Greeting() {
+  // 💣 delete this variable declaration and replace it with a React.useState call
+  const [name, setName] = React.useState('');
 
   function handleChange(event) {
+    // 🐨 update the name here based on event.target.value
+    console.log(event.target.value)
     setName(event.target.value);
   }
 
@@ -22,7 +25,7 @@ function Greeting({initialName}) {
 }
 
 function App() {
-  return <Greeting initialName='George'/>
+  return <Greeting />
 }
 
 export default App

@@ -22,7 +22,7 @@ function Greeting({initialName}) {
 }
 
 function App() {
-  return <Greeting initialName='George'/>
+  return <Greeting />
 }
 
 export default App
