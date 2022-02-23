@@ -3,7 +3,6 @@
 
 import * as React from 'react'
 import { PokemonForm, fetchPokemon, PokemonInfoFallback, PokemonDataView } from '../pokemon'
-import {ErrorBoundary} from 'react-error-boundary'
 
 function PokemonInfo({pokemonName}) {
   const [state, setState] = React.useState({status: 'idle', pokemon: null, error: null})
@@ -29,23 +28,17 @@ function PokemonInfo({pokemonName}) {
     return <PokemonInfoFallback name={pokemonName}/>
   } else if (status === 'rejected') {
     throw error
+    return (
+      <div role="alert">
+        There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
+      </div>
+    )
   } else if (status === 'resolved') {
     return <PokemonDataView pokemon={pokemon}/>
   }
 
   throw new Error('This should be impossible')
 }
-
-const ErrorFallback = ({error, resetErrorBoundary}) => {
-  return (
-    <div role="alert">
-      There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
-    </div>
-  )
-}
-
-
 
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
@@ -54,22 +47,12 @@ function App() {
     setPokemonName(newPokemonName)
   }
 
-  const handleReset = () => {
-    setPokemonName('')
-  }
-
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary 
-          FallbackComponent={ErrorFallback} 
-          onReset={handleReset} 
-          resetKeys={[pokemonName]}
-        >
-          <PokemonInfo pokemonName={pokemonName} />
-        </ErrorBoundary>
+        <PokemonInfo pokemonName={pokemonName} />
       </div>
     </div>
   )

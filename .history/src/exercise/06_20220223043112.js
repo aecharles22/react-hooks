@@ -45,8 +45,6 @@ const ErrorFallback = ({error, resetErrorBoundary}) => {
   )
 }
 
-
-
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
 
@@ -54,20 +52,12 @@ function App() {
     setPokemonName(newPokemonName)
   }
 
-  const handleReset = () => {
-    setPokemonName('')
-  }
-
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary 
-          FallbackComponent={ErrorFallback} 
-          onReset={handleReset} 
-          resetKeys={[pokemonName]}
-        >
+        <ErrorBoundary key={pokemonName} FallbackComponent={ErrorFallback}>
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>

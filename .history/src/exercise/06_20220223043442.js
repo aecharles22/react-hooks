@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 import { PokemonForm, fetchPokemon, PokemonInfoFallback, PokemonDataView } from '../pokemon'
-import {ErrorBoundary} from 'react-error-boundary'
+import {ErrorBoundary, resetErrorBoundary} from 'react-error-boundary'
 
 function PokemonInfo({pokemonName}) {
   const [state, setState] = React.useState({status: 'idle', pokemon: null, error: null})
@@ -45,8 +45,6 @@ const ErrorFallback = ({error, resetErrorBoundary}) => {
   )
 }
 
-
-
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
 
@@ -54,20 +52,12 @@ function App() {
     setPokemonName(newPokemonName)
   }
 
-  const handleReset = () => {
-    setPokemonName('')
-  }
-
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary 
-          FallbackComponent={ErrorFallback} 
-          onReset={handleReset} 
-          resetKeys={[pokemonName]}
-        >
+        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => setPokemonName('')} resetKeys={[pokemonName]}>
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>

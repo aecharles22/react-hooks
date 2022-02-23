@@ -36,16 +36,14 @@ function PokemonInfo({pokemonName}) {
   throw new Error('This should be impossible')
 }
 
-const ErrorFallback = ({error, resetErrorBoundary}) => {
+const ErrorFallback = ({error, reset}) => {
   return (
     <div role="alert">
       There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
+      <button>{resetErrorBoundary}</button>
     </div>
   )
 }
-
-
 
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
@@ -54,20 +52,12 @@ function App() {
     setPokemonName(newPokemonName)
   }
 
-  const handleReset = () => {
-    setPokemonName('')
-  }
-
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary 
-          FallbackComponent={ErrorFallback} 
-          onReset={handleReset} 
-          resetKeys={[pokemonName]}
-        >
+        <ErrorBoundary key={pokemonName} FallbackComponent={ErrorFallback}>
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
